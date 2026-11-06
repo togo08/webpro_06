@@ -117,4 +117,15 @@ app.get("/keiyo_add", (req, res) => {
   res.render('db2', { data: station });
 });
 
+// 自分の題材：読みたい本の一覧
+let books = [
+  { id: 1, title: "星の王子さま", author: "サン＝テグジュペリ" },
+  { id: 2, title: "銀河鉄道の夜", author: "宮沢賢治" },
+  { id: 3, title: "吾輩は猫である", author: "夏目漱石" }
+];
+
+app.get("/books", (req, res) => {
+  res.render('books', { data: books });
+});
+
 app.listen(8080, () => console.log("Example app listening on port 8080!"));
