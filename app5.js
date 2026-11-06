@@ -128,4 +128,13 @@ app.get("/books", (req, res) => {
   res.render('books', { data: books });
 });
 
+app.get("/books_add", (req, res) => {
+  let id = req.query.id;
+  let title = req.query.title;
+  let author = req.query.author;
+  let newdata = { id: id, title: title, author: author };
+  books.push(newdata);
+  res.render('books', { data: books });
+});
+
 app.listen(8080, () => console.log("Example app listening on port 8080!"));
