@@ -143,11 +143,24 @@ app.get("/keiyo2/:number", (req, res) => {
   res.render('keiyo2_detail', { id: number, data: detail });
 });
 
+app.get("/keiyo2/confirm-delete/:number", (req, res) => {
+  const number = Number(req.params.number);
+  if (!Number.isInteger(number) || String(number) !== req.params.number ||
+      number < 0 || number >= station2.length) {
+    return res.sendStatus(404);
+  }
+  const detail = station2[number];
+  res.render('keiyo2_delete', { id: number, data: detail });
+});
+
 app.get("/keiyo2/delete/:number", (req, res) => {
   const number = Number(req.params.number);
   if (!Number.isInteger(number) || String(number) !== req.params.number ||
       number < 0 || number >= station2.length) {
     return res.sendStatus(404);
+  }
+  if (req.query.id !== undefined && req.query.id !== String(station2[number].id)) {
+    return res.status(409).send('駅一覧を開き直して、削除する駅を確認してください。');
   }
   station2.splice(number, 1);
   res.redirect('/keiyo2');
