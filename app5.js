@@ -170,6 +170,31 @@ app.post("/keiyo2", (req, res) => {
   res.render('keiyo2', { data: station2 });
 });
 
+app.get("/keiyo2/edit/:number", (req, res) => {
+  const number = Number(req.params.number);
+  if (!Number.isInteger(number) || String(number) !== req.params.number ||
+      number < 0 || number >= station2.length) {
+    return res.sendStatus(404);
+  }
+  const detail = station2[number];
+  res.render('keiyo2_edit', { id: number, data: detail });
+});
+
+app.post("/keiyo2/update/:number", (req, res) => {
+  const number = Number(req.params.number);
+  if (!Number.isInteger(number) || String(number) !== req.params.number ||
+      number < 0 || number >= station2.length) {
+    return res.sendStatus(404);
+  }
+  const detail = station2[number];
+  detail.code = req.body.code;
+  detail.name = req.body.name;
+  detail.change = req.body.change || '';
+  detail.passengers = Number(req.body.passengers);
+  detail.distance = Number(req.body.distance);
+  res.redirect('/keiyo2');
+});
+
 app.get("/keiyo", (req, res) => {
   res.render('db2', { data: station });
 });
