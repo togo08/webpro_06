@@ -143,6 +143,33 @@ app.get("/keiyo2/:number", (req, res) => {
   res.render('keiyo2_detail', { id: number, data: detail });
 });
 
+app.get("/keiyo2/delete/:number", (req, res) => {
+  const number = Number(req.params.number);
+  if (!Number.isInteger(number) || String(number) !== req.params.number ||
+      number < 0 || number >= station2.length) {
+    return res.sendStatus(404);
+  }
+  station2.splice(number, 1);
+  res.redirect('/keiyo2');
+});
+
+app.post("/keiyo2", (req, res) => {
+  let id = 1;
+  for (const row of station2) {
+    if (row.id >= id) {
+      id = row.id + 1;
+    }
+  }
+  const code = req.body.code;
+  const name = req.body.name;
+  const change = req.body.change || '';
+  const passengers = Number(req.body.passengers);
+  const distance = Number(req.body.distance);
+  const newdata = { id: id, code: code, name: name, change: change, passengers: passengers, distance: distance };
+  station2.push(newdata);
+  res.render('keiyo2', { data: station2 });
+});
+
 app.get("/keiyo", (req, res) => {
   res.render('db2', { data: station });
 });
