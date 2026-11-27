@@ -120,6 +120,10 @@ app.get("/keiyo2", (req, res) => {
   res.render('keiyo2', { data: station2 });
 });
 
+app.get("/keiyo2/create", (req, res) => {
+  res.redirect('/public/keiyo2_new.html');
+});
+
 
 app.get("/keiyo2_add", (req, res) => {
   let id = Number(req.query.id);
@@ -136,7 +140,7 @@ app.get("/keiyo2_add", (req, res) => {
 app.get("/keiyo2/:number", (req, res) => {
   const number = req.params.number;
   const detail = station2[number];
-  res.render('keiyo2_detail', { data: detail });
+  res.render('keiyo2_detail', { id: number, data: detail });
 });
 
 app.get("/keiyo", (req, res) => {
